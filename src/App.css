@@ -1,38 +1,201 @@
-.App {
-  text-align: center;
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8; /* Soft background */
+    display: flex;
+    justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* The Mobile App Shell */
+.app-container {
+    width: 100vw;
+    max-width: 480px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Header & Progress */
+.header {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    text-align: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    backdrop-filter: blur(5px);
 }
 
-.App-link {
-  color: #61dafb;
+.header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.team-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+/* Content Area */
+.content-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    padding-bottom: 100px; /* Space for the bottom bar */
+}
+
+/* Gamified Cards */
+.puzzle-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.puzzle-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.puzzle-card h3 {
+    margin-top: 0;
+    color: #555;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.puzzle-card p {
+    font-size: 1.2rem;
+    color: #222;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* Bottom Action Bar */
+.bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    gap: 10px;
+}
+
+.code-input {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.code-input:focus {
+    border-color: #8ec5fc;
+}
+
+.verify-btn {
+    background: #4ade80; /* Bright gamified green */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0 25px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(74, 222, 128, 0.3);
+    transition: transform 0.1s;
+}
+
+.verify-btn:active {
+    transform: scale(0.95);
+}
+
+.error-msg {
+    color: #ff4757;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* Team Selection Screen */
+.team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.team-btn {
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+/* Puzzle Grids */
+.grid-board {
+    display: inline-grid;
+    gap: 4px;
+    background: #cbd5e1;
+    padding: 4px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.grid-cell {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    background: white;
+    color: #333;
+}
+
+.grid-cell:focus {
+    outline: 3px solid #8ec5fc;
+}
+
+.grid-cell:disabled {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.grid-cell.black-square {
+    background: #334155; /* Dark color for crossword blanks */
+    pointer-events: none;
 }
