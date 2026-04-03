@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const API_BASE = "https://easter-be-2.onrender.com";
+const API_BASE = "https://easter-be-2.onrender.com/api";
 
 interface Clue {
     id?: number;
