@@ -74,12 +74,29 @@ function App() {
     const [isFinished, setIsFinished] = useState<boolean>(false);
     const [viewingStats, setViewingStats] = useState<boolean>(false);
 
-    // Navegação de histórico
     const [maxStepReached, setMaxStepReached] = useState<number>(0);
     const [currentDisplayStep, setCurrentDisplayStep] = useState<number>(0);
 
+    // Corrigido: fetchClue agora está dentro do useEffect para satisfazer o build do Cloudflare
     useEffect(() => {
-        if (teamColor) fetchClue();
+        const fetchClue = async () => {
+            if (!teamColor) return;
+            const res = await fetch(`${API_BASE}/clue?color=${teamColor}`);
+            const data = await res.json();
+            if (data.finished) {
+                setIsFinished(true);
+            } else {
+                setCurrentClue(data);
+                if (data.id !== undefined) {
+                    setMaxStepReached(data.id);
+                    setCurrentDisplayStep(data.id);
+                }
+            }
+        };
+
+        if (teamColor) {
+            fetchClue();
+        }
     }, [teamColor]);
 
     const selectTeam = async (color: string) => {
@@ -91,22 +108,6 @@ function App() {
         setCurrentDisplayStep(data.step || 0);
     };
 
-    const fetchClue = async () => {
-        const res = await fetch(`${API_BASE}/clue?color=${teamColor}`);
-        const data = await res.json();
-        if (data.finished) {
-            setIsFinished(true);
-        } else {
-            setCurrentClue(data);
-            // Sincroniza o passo visual com o real do servidor
-            // Assumimos que o ID da pista ou ordem dita o passo
-            if (data.id !== undefined) {
-                setMaxStepReached(data.id);
-                setCurrentDisplayStep(data.id);
-            }
-        }
-    };
-
     const submitCode = async () => {
         if (!codeEntry.trim()) return;
         const res = await fetch(`${API_BASE}/verify?color=${teamColor}&code=${codeEntry}`, { method: 'POST' });
@@ -114,7 +115,8 @@ function App() {
         if (data.success) {
             setCodeEntry('');
             setErrorMsg('');
-            fetchClue();
+            // Força o recarregamento da pista atualizando o estado do componente
+            window.location.reload();
         } else {
             setErrorMsg(data.message || "Código Incorreto!");
         }
@@ -128,7 +130,6 @@ function App() {
         setCurrentClue(null);
     };
 
-    // --- Ecrã de Seleção ---
     if (!teamColor) {
         if (viewingStats) return (
             <div className="app-container">
@@ -154,7 +155,6 @@ function App() {
         );
     }
 
-    // --- Ecrã de Vitória ---
     if (isFinished) return (
         <div className="app-container">
             <div className="content-area center" style={{paddingTop: '50px'}}>
@@ -167,7 +167,6 @@ function App() {
         </div>
     );
 
-    // --- Jogo Ativo ---
     return (
         <div className="app-container">
             <div className="header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', background: 'white', boxShadow: '0 2px 5px rgba(0,0,0,0.1)'}}>
@@ -219,9 +218,6 @@ function App() {
     );
 }
 
-// ==========================================
-// PUZZLES
-// ==========================================
 const MiniSudoku = ({ gridData }: { gridData: string }) => {
     const parsed = JSON.parse(gridData);
     const [grid, setGrid] = useState<number[][]>(parsed.initial);
