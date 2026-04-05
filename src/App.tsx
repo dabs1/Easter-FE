@@ -148,7 +148,7 @@ function App() {
                         <button className="team-btn" onClick={() => selectTeam('RED')} style={{background: '#ff4757'}}>Vermelha</button>
                         <button className="team-btn" onClick={() => selectTeam('BLUE')} style={{background: '#1e90ff'}}>Azul</button>
                         <button className="team-btn" onClick={() => selectTeam('GREEN')} style={{background: '#2ed573'}}>Verde</button>
-                        <button className="team-btn" onClick={() => selectTeam('YELLOW')} style={{background: '#f1c40f'}}>Amarela</button> // <--- Novo Botão
+                        <button className="team-btn" onClick={() => selectTeam('YELLOW')} style={{background: '#f1c40f'}}>Amarela</button>
                     </div>
                     <button onClick={() => setViewingStats(true)} style={{marginTop: '40px', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', color: '#666'}}>📊 Ver Classificação</button>
                 </div>
